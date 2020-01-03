@@ -25,7 +25,7 @@ const WebpackDevServer = require('webpack-dev-server');
 
 // Configuration files
 const config = require("./config/webpack.config.js")();
-const devServerConfig = require("./config/webpack-dev-server.js")();
+const devServerConfig = require("./config/webpack-dev-server.config.js")();
 
 /*
 -------------------------------------------------------------------------------
