@@ -4,8 +4,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = () => {
     return {
-        context: path.resolve(__dirname, "src"),
+        context: path.resolve(__dirname, "../src"),
 
+        stats: {
+            colors: true
+        },
+        
         entry: {
             main: "./main.js"
         },
@@ -18,7 +22,7 @@ module.exports = () => {
 
         output: {
             filename: "js/[name]-[chunkhash:8].bundle.js",
-            path: path.resolve(__dirname, "public"),
+            path: path.resolve(__dirname, "../public"),
             publicPath: "/"
         },
 
