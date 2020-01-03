@@ -1,64 +1,87 @@
-var path = require('path');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+/*
+===============================================================================
 
-var config = {
-  entry: './src/main',
-  output: {
-    path: path.join(__dirname, 'public'),
-    filename: '[name].js'
-  },
-  module: {
-    loaders: [
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
-      { test: /\.(png|woff|woff2|eot|ttf|svg)(\?.*)?$/, loader: 'url-loader?limit=100000' }
-    ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html'
-    }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      'jQuery': 'jquery'
-    }),
-    new webpack.DefinePlugin({
-      'require.specified': 'require.resolve'
-    })
-  ]
-};
+Summernote Webpack Example
 
-var serverConfig = Object.assign(config, {
-});
+-------------------------------------------------------------------------------
 
-gulp.task('server', function(callback) {
-  var server = new WebpackDevServer(webpack(serverConfig), {
-    stats: {
-      colors: true
-    }
-  });
+Since the original application relied on gulp tasks for webpack and 
+webpack-dev-server configuration, the base webpack config has been
+brought over to the gulpfile, but will still work using the 
+webpack-cli interface.
+
+===============================================================================
+*/
+
+/*
+-------------------------------------------------------------------------------
+  - Imports
+-------------------------------------------------------------------------------
+*/
+const { series } = require('gulp');
+const gutil = require('gulp-util');
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+
+// Configuration files
+const config = require("./config/webpack.config.js")();
+const devServerConfig = require("./config/webpack-dev-server.js")();
+
+/*
+-------------------------------------------------------------------------------
+  - Gulp Tasks
+-------------------------------------------------------------------------------
+*/
+/**
+ * Serve Gulp task
+ * @param {*} cb 
+ */
+const serve =  (cb) => {
+  const serverConfig = Object.assign(config, devServerConfig);
+  const server = new WebpackDevServer(webpack(serverConfig), {});
 
   server.listen(8080, 'localhost', function(err) {
     if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
     }
-
     gutil.log('[webpack-dev-server]', 'http://localhost:8080');
   });
-});
 
-gulp.task('build', function(callback) {
+  cb();
+}
+
+
+/**
+ * Clean Gulp task
+ * @param {*} cb 
+ */
+const clean = (cb) => {
+  // Please put clean code here
+  cb();
+}
+
+
+/**
+ * Build Gulp task
+ * @param {*} cb 
+ */
+const build = (cb) => {
   webpack(config, function(err, stats) {
     if (err) {
-      throw new gutil.PluginError('webpack-dev-server', err);
+      throw new gutil.PluginError('webpack-build', err);
     }
 
     gutil.log('[webpack]', stats.toString());
-    callback();
+    cb();
   });
-});
+}
 
-gulp.task('default', ['build']);
+/*
+-------------------------------------------------------------------------------
+  - Tasks interface
+-------------------------------------------------------------------------------
+*/
+// Make tasks public
+exports.build = build;
+exports.serve = serve;
+exports.default = series(clean, build);
