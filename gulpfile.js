@@ -39,12 +39,14 @@ const devServerConfig = require("./config/webpack-dev-server.config.js")();
 const serve =  (cb) => {
   const serverConfig = Object.assign(config, devServerConfig);
   const server = new WebpackDevServer(webpack(serverConfig), {});
+  const port = devServerConfig.devServer && devServerConfig.devServer.port ? devServerConfig.devServer.port : "8080";
+  const host = devServerConfig.devServer && devServerConfig.devServer.host ? devServerConfig.devServer.host : "localhost";
 
-  server.listen(8080, 'localhost', function(err) {
+  server.listen(port, host, function(err) {
     if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
     }
-    gutil.log('[webpack-dev-server]', 'http://localhost:8080');
+    gutil.log('[webpack-dev-server]', `http://${host}:${port}`);
   });
 
   cb();
