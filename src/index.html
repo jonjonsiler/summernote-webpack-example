@@ -2,12 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Summernote webpack test</title>
 </head>
 <body>
-  <div class="container">
-    <h1>summernote webpack test</h1>
-    <div class="summernote"></div>
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Summernote Webpack Test</h1>
+      <p>Customizing the application containers for better bundling.</p>
+    </div>
   </div>
+  <main class="container">
+    <section class="mb-3">
+      <h2>Basic Inititalization</h2>
+      <div class="editor">Some editable text for you to work with!</div>  
+    </section>
+  
+    <section class="mb-3">
+      <h2>Air Mode</h2>
+      <div class="editor-airmode">Click in the text below to edit the content in "Air Mode".</div>  
+    </section>
+  
+    <section class="mb-3">
+      <div class="d-flex">
+        <h2>Click to edit</h2>
+        <div class="ml-auto">
+          <button type="button" class="btn btn-primary btn-edit">Edit</button>
+          <button type="button" class="btn btn-secondary btn-save">Save</button>
+          <button type="button" class="btn btn-warning btn-config"><i class="fa fa-gear"></i> Config</button>
+        </div>  
+      </div>
+      <div class="editor-click">
+        <p>Field with editable content for the editor to interact with on Edit and Save button click events.</p>
+      </div> 
+    </section>
+    </main>
 </body>
 </html>
