@@ -37,6 +37,8 @@ const devServerConfig = require("./config/webpack-dev-server.config.js")();
  * @param {*} cb 
  */
 const serve =  (cb) => {
+  config.mode = "development";
+  
   const serverConfig = Object.assign(config, devServerConfig);
   const server = new WebpackDevServer(webpack(serverConfig), {});
   const port = devServerConfig.devServer && devServerConfig.devServer.port ? devServerConfig.devServer.port : "8080";
@@ -68,6 +70,9 @@ const clean = (cb) => {
  * @param {*} cb 
  */
 const build = (cb) => {
+
+  config.mode = production;
+
   webpack(config, function(err, stats) {
     if (err) {
       throw new gutil.PluginError('webpack-build', err);
