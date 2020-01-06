@@ -9,7 +9,7 @@ module.exports = () => {
             hot: true,
             index: "index.html",
             overlay: true,
-            //open: true
+            open: true
         }
     };
 }
