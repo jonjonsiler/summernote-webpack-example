@@ -4,7 +4,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = (argv, env) => {
+    const mode = process.NODE_ENV && process.NODE_ENV.mode ? process.NODE_ENV.mode : env && env.mode ? env.mode : "development";
+
     return {
+
+        mode: mode,
+
         context: path.resolve(__dirname, "../src"),
 
         stats: {
@@ -33,13 +38,31 @@ module.exports = (argv, env) => {
 
                 // CSS file emitters
                 {
-                    test: /\.css/,
+                    test: /\.s?css/,
                     use: [
                         {
                             loader: "style-loader"
                         },
                         {
                             loader:"css-loader"
+                        },
+                        {
+                            loader: "sass-loader"
+                        }
+                    ],
+                },
+
+                {
+                    test: /\.less/,
+                    use: [
+                        {
+                            loader: "style-loader"
+                        },
+                        {
+                            loader:"css-loader"
+                        },
+                        {
+                            loader: "less-loader"
                         }
                     ],
                 },
