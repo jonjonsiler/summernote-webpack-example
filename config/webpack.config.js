@@ -17,14 +17,21 @@ module.exports = (argv, env) => {
         },
 
         entry: {
-            main: "./main.js"
+            "summernote-lite": "./summernote-lite",
+            "summernote-bs3": "./bootstrap-3",
+            "summernote-bs4": "./bootstrap-4"
         },
 
         resolve: {
             alias:{
                 // We need to alias due to require case sensitivity in the summernote lib
-                "jQuery": require.resolve("jquery")
-            }
+                "jQuery": require.resolve("jquery"),
+                "templates": path.resolve(__dirname, "../src/templates")
+            },
+            modules: [
+                path.resolve(__dirname, '../src/modules'),
+                "node_modules"
+            ]
         },
 
         output: {
@@ -91,7 +98,27 @@ module.exports = (argv, env) => {
 
             // Add a content shim for testing and development.
             new HtmlWebpackPlugin({
-              template: 'index.html'
+              template: 'templates/index.html',
+              filename: 'index.html',
+              chunks: [
+                  'summernote-lite',
+              ]
+            }),
+
+            new HtmlWebpackPlugin({
+                template: 'templates/index.html',
+                filename: 'index-bs3.html',
+                chunks: [
+                    'summernote-bs3',
+                ]
+            }),
+
+            new HtmlWebpackPlugin({
+                template: 'templates/index.html',
+                filename: 'index-bs4.html',
+                chunks: [
+                    'summernote-bs4',
+                ]
             }),
 
             // Autoimport jquery when used.
