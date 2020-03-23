@@ -38,7 +38,7 @@ const devServerConfig = require("./config/webpack-dev-server.config.js")();
  */
 const serve =  (cb) => {
   config.mode = "development";
-  
+
   const serverConfig = Object.assign(config, devServerConfig);
   const server = new WebpackDevServer(webpack(serverConfig), {});
   const port = devServerConfig.devServer && devServerConfig.devServer.port ? devServerConfig.devServer.port : "8080";
@@ -71,7 +71,7 @@ const clean = (cb) => {
  */
 const build = (cb) => {
 
-  config.mode = production;
+  config.mode = 'production';
 
   webpack(config, function(err, stats) {
     if (err) {
